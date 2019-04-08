@@ -1,15 +1,23 @@
+'use strict';
+
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
-const bodyParser = require('body-parser');
 
 const app = express();
 
 const port = 8000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-MongoClient.connect(process.env.MONGO_URL, { useNewUrlParser: true })
-  .then(database => {
+const url = process.env.MONGO_URL;
+
+const client = new MongoClient(url, { useNewUrlParser: true });
+
+client.connect()
+  .then(() => {
+    const database = client.db('load_testing');
+
     require('./app/routes')(app, database);
 
     app.listen(port, () => {

@@ -1,6 +1,8 @@
+'use strict';
+
 const ObjectID = require('mongodb').ObjectID;
 
-module.exports = function (app, db) {
+module.exports = (app, db) => {
   app.route('/notes/:id')
     .get((req, res) => {
       const { id } = req.params;
@@ -9,7 +11,7 @@ module.exports = function (app, db) {
       db
         .collection('notes')
         .findOne(details)
-        .then((item) => { res.send(item); })
+        .then(item => { res.send(item); })
         .catch(error => { res.send(error); });
     })
     .put((req, res) => {
@@ -37,16 +39,24 @@ module.exports = function (app, db) {
         .catch(error => { res.send(error); });
     });
 
-  app.post('/notes', (req, res) => {
-    const note = {
-      text: req.body.body,
-      title: req.body.title
-    };
+  app.route('/notes')
+    .get((req, res) => {
+      db
+        .collection('notes')
+        .find({})
+        .toArray()
+        .then(result => { res.send(result); })
+    })
+    .post((req, res) => {
+      const note = {
+        text: req.body.body,
+        title: req.body.title
+      };
 
-    db
-      .collection('notes')
-      .insert(note)
-      .then((result) => { res.send(result.ops[0]); })
-      .catch(error => { res.send(error); });
-  });
+      db
+        .collection('notes')
+        .insert(note)
+        .then(result => { res.send(result.ops[0]); })
+        .catch(error => { res.send(error); });
+    });
 };
