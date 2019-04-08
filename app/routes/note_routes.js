@@ -24,7 +24,7 @@ module.exports = (app, db) => {
 
       db
         .collection('notes')
-        .update(details, note)
+        .updateOne(details, note)
         .then(() => { res.send(note); })
         .catch(error => { res.send(error); });
     })
@@ -34,7 +34,7 @@ module.exports = (app, db) => {
 
       db
         .collection('notes')
-        .remove(details)
+        .removeOne(details)
         .then(() => { res.send('Note ' + id + ' deleted!'); })
         .catch(error => { res.send(error); });
     });
@@ -55,7 +55,7 @@ module.exports = (app, db) => {
 
       db
         .collection('notes')
-        .insert(note)
+        .insertOne(note)
         .then(result => { res.send(result.ops[0]); })
         .catch(error => { res.send(error); });
     });
