@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
 const app = express();
 
@@ -11,6 +11,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const url = process.env.MONGO_URL;
+
+if (!url) {
+  console.log(`'MONGO_URL' environment variable is required!`);
+
+  process.exit(1);
+}
 
 const client = new MongoClient(url, { useNewUrlParser: true });
 
