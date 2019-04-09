@@ -83,5 +83,16 @@ module.exports = (app, db) => {
           });
         })
         .catch(error => { res.send(error); });
+    })
+    .delete((req, res) => {
+      db
+        .collection('notes')
+        .deleteMany({})
+        .then(() => {
+          res.send({
+            message: 'Collection of notes dropped!'
+          });
+        })
+        .catch(error => { res.send(error); });
     });
 };
