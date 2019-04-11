@@ -1,0 +1,170 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'Notable API'
+  description: 'Documentation powered by Swagger'
+paths:
+  /notes:
+    get:
+      tags:
+        - 'notes'
+      summary: 'Get all notes from the data base'
+      description: ''
+      operationId: 'getNotes'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+              data:
+                type: 'array'
+                items:
+                  $ref: '#/definitions/Note'
+    post:
+      tags:
+        - 'notes'
+      summary: 'Add a new note to the data base'
+      description: ''
+      operationId: 'addNote'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: ''
+          required: true
+          schema:
+            type: 'object'
+            required:
+              - 'title'
+              - 'body'
+            properties:
+              title:
+                type: 'string'
+                example: 'Lorem ipsum'
+              body:
+                type: 'string'
+                example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+    delete:
+      tags:
+        - 'notes'
+      summary: 'Delete all the notes from the data base'
+      description: ''
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: 'string'
+            properties:
+              message:
+                type: 'string'
+              data:
+                $ref: '#/definitions/Note'
+  /notes/{id}:
+    get:
+      tags:
+        - 'notes/{id}'
+      summary: 'Get a specific note by id'
+      description: ''
+      operationId: 'getNote'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'Id of the required note'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              data:
+                $ref: '#/definitions/Note'
+    put:
+      tags:
+        - 'notes/{id}'
+      summary: 'Update a note with specified id'
+      description: ''
+      operationId: 'updateNote'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'Id of the required note'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+              data:
+                $ref: '#/definitions/Note'
+    delete:
+      tags:
+        - 'notes/{id}'
+      summary: 'Delete a note with specified id'
+      description: ''
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'Id of the required note'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: 'string'
+            properties:
+              message:
+                type: 'string'
+definitions:
+  Note:
+    type: 'object'
+    properties:
+      title:
+        type: 'string'
+      text:
+        type: 'string'
+      _id:
+        type: 'string'
+externalDocs:
+  description: 'Find out more about Swagger'
+  url: 'http://swagger.io'
